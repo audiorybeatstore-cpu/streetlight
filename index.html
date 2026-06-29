@@ -8,53 +8,194 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons for Socials -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* Hero Section Expansion */
         .hero {
-            padding: 6rem 0;
+            padding: 10rem 0 8rem;
             text-align: center;
+            background: linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), 
+                        url('./images/streetlights.webp') no-repeat center center;
+            background-size: cover;
+            margin-top: -80px; /* Pulls hero under transparent header */
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 4%;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.8);
         }
         .hero h1 {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 900;
             text-transform: uppercase;
-            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
         }
         .hero p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            color: #e0e0e0;
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Portfolio Grid Modifications */
+        .portfolio-heading {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.5rem;
+            margin: 4rem 0 2rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
         }
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 10fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
         }
-        @media(max-width: 768px) {
-            .portfolio-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.5rem; }
-        }
+        
+        /* Custom Video Player UI Card */
         .work-card {
             background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
-        .work-card:hover {
-            transform: translateY(-5px);
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
         }
         .work-thumb {
             width: 100%;
-            height: 300px;
+            height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .work-card:hover .work-thumb {
+            transform: scale(1.04);
+        }
+        
+        /* Premium Play Button Overlay */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            padding-left: 4px; /* visually centers the play triangle */
+        }
+        .work-card:hover .play-btn {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
+        }
+        .work-card:hover .video-overlay {
+            background: rgba(0, 0, 0, 0.2);
         }
         .work-info {
             padding: 1.5rem;
+            border-top: 1px solid #1f1f1f;
         }
-        .work-info h3 { font-size: 1.25rem; margin-bottom: 0.5rem;}
-        .work-info p { color: var(--text-muted); font-size: 0.9rem;}
+        .work-info h3 { font-size: 1.3rem; margin-bottom: 0.4rem; font-weight: 700;}
+        .work-info p { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+
+        /* Modern Cinema Modal system */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .video-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            width: 90%;
+            max-width: 1000px;
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .modal-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .close-modal:hover { color: var(--accent-color); }
+
+        /* Social Icons Grid */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        @media(max-width: 768px) {
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3rem; }
+            .hero { padding: 8rem 0 5rem; }
+        }
     </style>
 </head>
 <body>
@@ -68,53 +209,125 @@
         </nav>
     </header>
 
-    <main>
+    <main style="padding-top: 0;">
+        <!-- Large Cinema Hero Banner -->
         <section class="hero">
-            <h1>Visualizing Sound.</h1>
-            <p>Music videos, live sessions, and cinematic projects directed by Streetlight.</p>
+            <div class="hero-content">
+                <h1>Visualizing Sound.</h1>
+                <p>High-end cinematic music video direction for independent & major label artists worldwide.</p>
+            </div>
         </section>
 
+        <!-- Video Portfolio Grid Section -->
         <section>
+            <h2 class="portfolio-heading">Selected Works</h2>
             <div class="portfolio-grid">
-                <!-- Work 1 -->
-                <div class="work-card">
-                    <img src="./images/streetlights.webp" alt="Music Video" class="work-thumb">
+                
+                <!-- Video Card 1 -->
+                <!-- Change data-youtube values to match your specific video ID strings -->
+                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                    <div class="video-container">
+                        <img src="./images/streetlights.webp" alt="Music Video" class="work-thumb">
+                        <div class="video-overlay">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                    </div>
                     <div class="work-info">
                         <h3>Artist Name — Track Title</h3>
                         <p>Official Music Video • 2026</p>
                     </div>
                 </div>
-                <!-- Work 2 -->
-                <div class="work-card">
-                    <img src="./images/streetlights2.webp" alt="Music Video" class="work-thumb">
+
+                <!-- Video Card 2 -->
+                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                    <div class="video-container">
+                        <img src="./images/streetlights2.webp" alt="Music Video" class="work-thumb">
+                        <div class="video-overlay">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                    </div>
                     <div class="work-info">
                         <h3>Midnight Sessions — Live Performance</h3>
                         <p>Live Session Direction • 2026</p>
                     </div>
                 </div>
-                <!-- Work 3 -->
-                <div class="work-card">
-                    <img src="./images/streetlights3.webp" alt="Music Video" class="work-thumb">
+
+                <!-- Video Card 3 -->
+                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                    <div class="video-container">
+                        <img src="./images/streetlights3.webp" alt="Music Video" class="work-thumb">
+                        <div class="video-overlay">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                    </div>
                     <div class="work-info">
                         <h3>Neon Dreams — Short Film</h3>
                         <p>Cinematic Concept • 2025</p>
                     </div>
                 </div>
-                <!-- Work 4 -->
-                <div class="work-card">
-                    <img src="./images/streetlights4.webp" alt="Music Video" class="work-thumb">
+
+                <!-- Video Card 4 -->
+                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                    <div class="video-container">
+                        <img src="./images/streetlights4.webp" alt="Music Video" class="work-thumb">
+                        <div class="video-overlay">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                    </div>
                     <div class="work-info">
                         <h3>Shadows — Music Video</h3>
                         <p>Official Music Video • 2025</p>
                     </div>
                 </div>
+
             </div>
         </section>
     </main>
 
+    <!-- Custom Cinematic Modal Architecture -->
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <div class="close-modal" id="closeModal">Close <i class="fa-solid fa-xmark"></i></div>
+            <iframe id="modalPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <footer>
+        <!-- Classic Social Connections Block -->
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://vimeo.com" target="_blank" aria-label="Vimeo"><i class="fa-brands fa-vimeo-v"></i></a>
+            <a href="mailto:director@example.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        </div>
         <p>&copy; 2026 Streetlight. All Rights Reserved.</p>
     </footer>
 
+    <!-- Video Modal System Script Logic -->
+    <script>
+        const cards = document.querySelectorAll('.work-card');
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('modalPlayer');
+        const closeBtn = document.getElementById('closeModal');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const videoId = card.getAttribute('data-youtube');
+                // Construct completely clean minimal embed URL parameters
+                player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
+                modal.classList.add('active');
+            });
+        });
+
+        const closeModalFunc = () => {
+            modal.classList.remove('active');
+            player.src = ''; // Clear video source on close to stop playback audio completely
+        };
+
+        closeBtn.addEventListener('click', closeModalFunc);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModalFunc();
+        });
+    </script>
 </body>
 </html>

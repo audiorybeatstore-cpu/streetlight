@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Now | STREETLIGHT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        .booking-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 0;
+        }
+        .price-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        .price-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem;}
+        .price { font-size: 2rem; font-weight: 700; color: var(--accent-color); margin-bottom: 1rem;}
+        .price-card ul { list-style: none; color: var(--text-muted); font-size: 0.95rem;}
+        .price-card ul li { margin-bottom: 0.5rem; }
+        
+        /* Form Styling */
+        form {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
+        }
+        form h2 { margin-bottom: 1.5rem; text-transform: uppercase;}
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--text-muted);}
+        input, textarea, select {
+            width: 100%;
+            padding: 0.85rem;
+            background: #222;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        button:hover { opacity: 0.9; }
+        @media(max-width: 768px) {
+            .booking-layout { grid-template-columns: 1fr; gap: 2rem;}
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Street<span>light</span></div>
+        <nav>
+            <a href="/">Portfolio</a>
+            <a href="/about/">About</a>
+            <a href="/book-now/" class="active">Rates & Booking</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="booking-layout">
+            <!-- Pricing / Info Panel -->
+            <div>
+                <h2>Rates & Packages</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem;">Custom treatments available upon request. Rates exclude travel/lodging outside base location.</p>
+                
+                <div class="price-card">
+                    <h3>Official Music Video</h3>
+                    <div class="price">From $2,500</div>
+                    <ul>
+                        <li>• Complete concept treatment & storyboarding</li>
+                        <li>• 1 Full shooting day</li>
+                        <li>• High-end color grading & post-production</li>
+                    </ul>
+                </div>
+
+                <div class="price-card">
+                    <h3>Live Studio Session</h3>
+                    <div class="price">From $1,200</div>
+                    <ul>
+                        <li>• Multi-camera performance setup</li>
+                        <li>• Fast turnaround delivery</li>
+                        <li>• Audio sync integration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact & Booking Form -->
+            <div>
+                <!-- REPLACE "your_formspree_id" WITH THE ACTUAL ID FROM FORMSPREE.IO -->
+                <form action="https://formspree.io/f/your_formspree_id" method="POST">
+                    <h2>Inquire Project</h2>
+                    
+                    <div class="form-group">
+                        <label for="name">Your Name / Artist Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="_replyto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="package">Project Type</label>
+                        <select id="package" name="package">
+                            <option value="Music Video">Official Music Video</option>
+                            <option value="Live Session">Live Studio Session</option>
+                            <option value="Other">Custom Cinematic Project</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Project Details & Timeline</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell me about your track, budget estimate, and target shoot dates..." required></textarea>
+                    </div>
+
+                    <!-- Honeypot anti-spam field -->
+                    <input type="text" name="_gotcha" style="display:none">
+
+                    <button type="submit">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Streetlight. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

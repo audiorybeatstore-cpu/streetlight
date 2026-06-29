@@ -8,25 +8,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons for Socials -->
+    <!-- Font Awesome Icons for Socials and Hamburger Menu -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* Hero Section Expansion */
         .hero {
-            padding: 12rem 0 10rem;
+            padding: 14rem 0 10rem;
             text-align: center;
-            /* Fixed pathing and added fallback color */
-            background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 100%), 
-                        url('./streetlights.webp') no-repeat center center;
+            /* Using root-relative layout pathing to prevent GitHub Pages asset breaks */
+            background: linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,1) 100%), 
+                        url('streetlights.webp') no-repeat center center;
             background-size: cover;
-            margin-top: -80px; /* Pulls hero under transparent header */
+            background-attachment: scroll;
+            margin-top: -90px; /* Pulls hero gracefully under transparent header */
         }
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
             padding: 0 4%;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.9);
+            text-shadow: 0 4px 16px rgba(0,0,0,0.95);
         }
         .hero h1 {
             font-size: 5rem;
@@ -42,13 +43,36 @@
             margin-bottom: 2.5rem;
             letter-spacing: 0.5px;
         }
+
+        /* Responsive Navigation Architecture */
+        header {
+            position: relative;
+            background-color: rgba(10, 10, 10, 0.75) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.3s;
+        }
         
+        /* Modern Mobile Hamburger Menu Trigger */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .menu-toggle:hover {
+            color: var(--accent-color);
+        }
+
         /* Portfolio Grid Modifications */
         .portfolio-heading {
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 1.5rem;
-            margin: 4rem 0 2rem;
+            margin: 5rem 0 2rem;
             border-left: 3px solid var(--accent-color);
             padding-left: 1rem;
         }
@@ -71,7 +95,7 @@
             width: 100%;
             height: 320px;
             overflow: hidden;
-            background: #111; /* fallback dark skeleton background */
+            background: #111;
         }
         .work-thumb {
             width: 100%;
@@ -137,7 +161,7 @@
             height: 100%;
             background: rgba(5, 5, 5, 0.95);
             backdrop-filter: blur(15px);
-            z-index: 1000;
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -193,10 +217,43 @@
             transform: translateY(-3px);
         }
 
+        /* Responsive Layout Overrides */
         @media(max-width: 768px) {
             .portfolio-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 3rem; }
-            .hero { padding: 8rem 0 5rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero { padding: 10rem 0 6rem; }
+            
+            /* Activate Mobile Hamburger Drawer */
+            .menu-toggle {
+                display: block;
+            }
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 300px;
+                height: 100vh;
+                background: #0e0e0e;
+                border-left: 1px solid #1f1f1f;
+                display: flex;
+                flex-direction: column;
+                padding: 7rem 2rem;
+                gap: 2rem;
+                z-index: 1000;
+                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            }
+            nav.open {
+                right: 0;
+            }
+            nav a {
+                margin-left: 0;
+                font-size: 1.2rem;
+                font-weight: 700;
+                border-bottom: 1px solid #1a1a1a;
+                padding-bottom: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -204,7 +261,11 @@
 
     <header>
         <div class="logo">Street<span>light</span></div>
-        <nav>
+        <!-- Hamburger Menu Button -->
+        <div class="menu-toggle" id="mobileMenuBtn">
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </div>
+        <nav id="navMenu">
             <a href="/" class="active">Portfolio</a>
             <a href="/about/">About</a>
             <a href="/book-now/">Rates & Booking</a>
@@ -213,7 +274,7 @@
 
     <main style="padding-top: 0;">
         <!-- Large Cinema Hero Banner -->
-        <section class="hero">
+        <section class="hero" id="heroBanner">
             <div class="hero-content">
                 <h1>Visualizing Sound.</h1>
                 <p>High-end cinematic music video direction for independent & major label artists worldwide.</p>
@@ -225,10 +286,9 @@
             <h2 class="portfolio-heading">Selected Works</h2>
             <div class="portfolio-grid">
                 
-                <!-- Video Card 1 (Replace data-youtube with your actual video IDs) -->
+                <!-- Video Card 1 (Replace with your actual video IDs) -->
                 <div class="work-card" data-youtube="dQw4w9WgXcQ">
                     <div class="video-container">
-                        <!-- Removed hardcoded image path; source generated dynamically below -->
                         <img alt="Music Video Artwork Cover" class="work-thumb">
                         <div class="video-overlay">
                             <div class="play-btn"><i class="fa-solid fa-play"></i></div>
@@ -295,7 +355,6 @@
     </div>
 
     <footer>
-        <!-- Classic Social Connections Block -->
         <div class="social-links">
             <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
@@ -306,37 +365,13 @@
     </footer>
 
     <script>
-        const cards = document.querySelectorAll('.work-card');
-        const modal = document.getElementById('videoModal');
-        const player = document.getElementById('modalPlayer');
-        const closeBtn = document.getElementById('closeModal');
+        // --- 1. HERO RECOVERY ENGINE ---
+        // Forces GitHub Pages to evaluate the current hostname space dynamically to prevent absolute structural broken paths
+        document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,1) 100%), url('${window.location.origin}/streetlights.webp')`;
 
-        // Automatically pull custom covers from YouTube directly for each video card
-        cards.forEach(card => {
-            const videoId = card.getAttribute('data-youtube');
-            const thumbImg = card.querySelector('.work-thumb');
-            
-            // Sets the background image to YouTube's maximum resolution video cover artwork
-            if (videoId && thumbImg) {
-                thumbImg.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-            }
+        // --- 2. MOBILE HAMBURGER MENU SYSTEM ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const menuIcon = document.getElementById('menuIcon');
 
-            // Click behavior to play video cleanly inside classic modal
-            card.addEventListener('click', () => {
-                player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
-                modal.classList.add('active');
-            });
-        });
-
-        const closeModalFunc = () => {
-            modal.classList.remove('active');
-            player.src = ''; 
-        };
-
-        closeBtn.addEventListener('click', closeModalFunc);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModalFunc();
-        });
-    </script>
-</body>
-</html>
+        mobileMenuBtn.addEventListener('click', ()Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.

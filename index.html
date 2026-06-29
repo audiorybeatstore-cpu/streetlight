@@ -14,10 +14,11 @@
     <style>
         /* Hero Section Expansion */
         .hero {
-            padding: 10rem 0 8rem;
+            padding: 12rem 0 10rem;
             text-align: center;
-            background: linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), 
-                        url('streetlights.webp') no-repeat center center;
+            /* Fixed pathing and added fallback color */
+            background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 100%), 
+                        url('./streetlights.webp') no-repeat center center;
             background-size: cover;
             margin-top: -80px; /* Pulls hero under transparent header */
         }
@@ -25,7 +26,7 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 0 4%;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 12px rgba(0,0,0,0.9);
         }
         .hero h1 {
             font-size: 5rem;
@@ -70,6 +71,7 @@
             width: 100%;
             height: 320px;
             overflow: hidden;
+            background: #111; /* fallback dark skeleton background */
         }
         .work-thumb {
             width: 100%;
@@ -108,7 +110,7 @@
             color: #fff;
             font-size: 1.5rem;
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            padding-left: 4px; /* visually centers the play triangle */
+            padding-left: 4px; 
         }
         .work-card:hover .play-btn {
             background: var(--accent-color);
@@ -223,11 +225,11 @@
             <h2 class="portfolio-heading">Selected Works</h2>
             <div class="portfolio-grid">
                 
-                <!-- Video Card 1 -->
-                <!-- Change data-youtube values to match your specific video ID strings -->
+                <!-- Video Card 1 (Replace data-youtube with your actual video IDs) -->
                 <div class="work-card" data-youtube="dQw4w9WgXcQ">
                     <div class="video-container">
-                        <img src="./images/streetlights.webp" alt="Music Video" class="work-thumb">
+                        <!-- Removed hardcoded image path; source generated dynamically below -->
+                        <img alt="Music Video Artwork Cover" class="work-thumb">
                         <div class="video-overlay">
                             <div class="play-btn"><i class="fa-solid fa-play"></i></div>
                         </div>
@@ -239,9 +241,9 @@
                 </div>
 
                 <!-- Video Card 2 -->
-                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                <div class="work-card" data-youtube="jNQXAC9IVRw">
                     <div class="video-container">
-                        <img src="./images/streetlights2.webp" alt="Music Video" class="work-thumb">
+                        <img alt="Music Video Artwork Cover" class="work-thumb">
                         <div class="video-overlay">
                             <div class="play-btn"><i class="fa-solid fa-play"></i></div>
                         </div>
@@ -253,9 +255,9 @@
                 </div>
 
                 <!-- Video Card 3 -->
-                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                <div class="work-card" data-youtube="kJQP7kiw5Fk">
                     <div class="video-container">
-                        <img src="./images/streetlights3.webp" alt="Music Video" class="work-thumb">
+                        <img alt="Music Video Artwork Cover" class="work-thumb">
                         <div class="video-overlay">
                             <div class="play-btn"><i class="fa-solid fa-play"></i></div>
                         </div>
@@ -267,9 +269,9 @@
                 </div>
 
                 <!-- Video Card 4 -->
-                <div class="work-card" data-youtube="dQw4w9WgXcQ">
+                <div class="work-card" data-youtube="9bZkp7q19f0">
                     <div class="video-container">
-                        <img src="./images/streetlights4.webp" alt="Music Video" class="work-thumb">
+                        <img alt="Music Video Artwork Cover" class="work-thumb">
                         <div class="video-overlay">
                             <div class="play-btn"><i class="fa-solid fa-play"></i></div>
                         </div>
@@ -303,17 +305,24 @@
         <p>&copy; 2026 Streetlight. All Rights Reserved.</p>
     </footer>
 
-    <!-- Video Modal System Script Logic -->
     <script>
         const cards = document.querySelectorAll('.work-card');
         const modal = document.getElementById('videoModal');
         const player = document.getElementById('modalPlayer');
         const closeBtn = document.getElementById('closeModal');
 
+        // Automatically pull custom covers from YouTube directly for each video card
         cards.forEach(card => {
+            const videoId = card.getAttribute('data-youtube');
+            const thumbImg = card.querySelector('.work-thumb');
+            
+            // Sets the background image to YouTube's maximum resolution video cover artwork
+            if (videoId && thumbImg) {
+                thumbImg.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            }
+
+            // Click behavior to play video cleanly inside classic modal
             card.addEventListener('click', () => {
-                const videoId = card.getAttribute('data-youtube');
-                // Construct completely clean minimal embed URL parameters
                 player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&showinfo=0`;
                 modal.classList.add('active');
             });
@@ -321,7 +330,7 @@
 
         const closeModalFunc = () => {
             modal.classList.remove('active');
-            player.src = ''; // Clear video source on close to stop playback audio completely
+            player.src = ''; 
         };
 
         closeBtn.addEventListener('click', closeModalFunc);

@@ -16,9 +16,9 @@
         .hero {
             padding: 14rem 0 10rem;
             text-align: center;
-            /* Using root-relative layout pathing to prevent GitHub Pages asset breaks */
-            background: linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,1) 100%), 
-                        url('streetlights.webp') no-repeat center center;
+            /* Updated with Unsplash image string directly */
+            background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 100%), 
+                        url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1920&q=80') no-repeat center center;
             background-size: cover;
             background-attachment: scroll;
             margin-top: -90px; /* Pulls hero gracefully under transparent header */
@@ -52,6 +52,11 @@
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 4%;
+            z-index: 1005;
         }
         
         /* Modern Mobile Hamburger Menu Trigger */
@@ -60,10 +65,20 @@
             font-size: 1.5rem;
             color: #fff;
             cursor: pointer;
-            z-index: 1001;
+            z-index: 1010;
             transition: color 0.3s, transform 0.3s;
         }
         .menu-toggle:hover {
+            color: var(--accent-color);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+        nav a.active, nav a:hover {
             color: var(--accent-color);
         }
 
@@ -80,11 +95,12 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 2.5rem;
+            padding: 0 4%;
         }
         
         /* Custom Video Player UI Card */
         .work-card {
-            background: var(--card-bg);
+            background: var(--card-bg, #161616);
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
@@ -137,8 +153,8 @@
             padding-left: 4px; 
         }
         .work-card:hover .play-btn {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
+            background: var(--accent-color, #e50914);
+            border-color: var(--accent-color, #e50914);
             transform: scale(1.1);
             box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
         }
@@ -149,8 +165,8 @@
             padding: 1.5rem;
             border-top: 1px solid #1f1f1f;
         }
-        .work-info h3 { font-size: 1.3rem; margin-bottom: 0.4rem; font-weight: 700;}
-        .work-info p { color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+        .work-info h3 { font-size: 1.3rem; margin-bottom: 0.4rem; font-weight: 700; color: #fff;}
+        .work-info p { color: var(--text-muted, #aaaaaa); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
 
         /* Modern Cinema Modal system */
         .video-modal {
@@ -198,7 +214,7 @@
             font-weight: 700;
             transition: color 0.3s;
         }
-        .close-modal:hover { color: var(--accent-color); }
+        .close-modal:hover { color: var(--accent-color, #e50914); }
 
         /* Social Icons Grid */
         .social-links {
@@ -208,13 +224,19 @@
             margin-bottom: 2rem;
         }
         .social-links a {
-            color: var(--text-muted);
+            color: var(--text-muted, #aaaaaa);
             font-size: 1.5rem;
             transition: color 0.3s, transform 0.3s;
         }
         .social-links a:hover {
-            color: var(--accent-color);
+            color: var(--accent-color, #e50914);
             transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-muted, #aaaaaa);
         }
 
         /* Responsive Layout Overrides */
@@ -286,7 +308,7 @@
             <h2 class="portfolio-heading">Selected Works</h2>
             <div class="portfolio-grid">
                 
-                <!-- Video Card 1 (Replace with your actual video IDs) -->
+                <!-- Video Card 1 -->
                 <div class="work-card" data-youtube="65nClOBJab0">
                     <div class="video-container">
                         <img alt="Music Video Artwork Cover" class="work-thumb">
@@ -337,7 +359,7 @@
                         </div>
                     </div>
                     <div class="work-info">
-                        <h3>Official Bigi — Music 001 Streetz</h3>
+                        <h3>Official Bigi — 001 Streetz</h3>
                         <p>Official Music Video • 2025</p>
                     </div>
                 </div>
@@ -365,13 +387,64 @@
     </footer>
 
     <script>
-        // --- 1. HERO RECOVERY ENGINE ---
-        // Forces GitHub Pages to evaluate the current hostname space dynamically to prevent absolute structural broken paths
-        document.getElementById('heroBanner').style.backgroundImage = `linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,1) 100%), url('${window.location.origin}/streetlights.webp')`;
+        const cards = document.querySelectorAll('.work-card');
+        const modal = document.getElementById('videoModal');
+        const player = document.getElementById('modalPlayer');
+        const closeBtn = document.getElementById('closeModal');
 
-        // --- 2. MOBILE HAMBURGER MENU SYSTEM ---
+        // --- 1. DYNAMIC THUMBNAIL GENERATOR ENGINE ---
+        cards.forEach(card => {
+            const videoId = card.getAttribute('data-youtube');
+            const thumbImg = card.querySelector('.work-thumb');
+            
+            if (videoId && thumbImg) {
+                // Generates standard high-quality YouTube dynamic background directly inside layout viewport
+                thumbImg.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+            }
+
+            card.addEventListener('click', () => {
+                player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+                modal.classList.add('active');
+            });
+        });
+
+        const closeModalFunc = () => {
+            modal.classList.remove('active');
+            player.src = ''; 
+        };
+
+        closeBtn.addEventListener('click', closeModalFunc);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModalFunc();
+        });
+
+        // --- 2. MOBILE HAMBURGER MENU ENGINE ---
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navMenu = document.getElementById('navMenu');
         const menuIcon = document.getElementById('menuIcon');
 
-        mobileMenuBtn.addEventListener('click', ()Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle('open');
+            
+            // Toggle icon classes safely
+            if (navMenu.classList.contains('open')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Close menu if user clicks anywhere outside the mobile drawer
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navMenu.classList.remove('open');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
+</body>
+</html>

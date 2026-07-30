@@ -1,151 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Now | STREETLIGHT</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Rates & Booking | STREETLIGHTS Music Director</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <style>
-        .booking-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            padding: 4rem 0;
-        }
-        .price-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--accent-color);
-        }
-        .price-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem;}
-        .price { font-size: 2rem; font-weight: 700; color: var(--accent-color); margin-bottom: 1rem;}
-        .price-card ul { list-style: none; color: var(--text-muted); font-size: 0.95rem;}
-        .price-card ul li { margin-bottom: 0.5rem; }
-        
-        /* Form Styling */
-        form {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 8px;
-        }
-        form h2 { margin-bottom: 1.5rem; text-transform: uppercase;}
-        .form-group { margin-bottom: 1.25rem; }
-        label { display: block; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--text-muted);}
-        input, textarea, select {
-            width: 100%;
-            padding: 0.85rem;
-            background: #222;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 4px;
-            font-family: inherit;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-        button {
-            width: 100%;
-            padding: 1rem;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        button:hover { opacity: 0.9; }
-        @media(max-width: 768px) {
-            .booking-layout { grid-template-columns: 1fr; gap: 2rem;}
-        }
-    </style>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-950 flex flex-col min-h-screen">
 
-    <header>
-        <div class="logo">Street<span>light</span></div>
-        <nav>
-            <a href="/">Portfolio</a>
-            <a href="/about/">About</a>
-            <a href="/book-now/" class="active">Rates & Booking</a>
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 py-5 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/60 transition-all duration-300">
+        <!-- Logo -->
+        <a href="/" class="text-2xl font-black tracking-wider uppercase text-slate-100 hover:opacity-90 transition-opacity">
+            Street<span class="text-amber-400">lights</span>
+        </a>
+
+        <!-- Hamburger Button (Mobile) -->
+        <button id="mobileMenuBtn" aria-label="Toggle navigation menu" class="md:hidden text-2xl text-slate-100 hover:text-amber-400 focus:outline-none transition-colors z-50">
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
+
+        <!-- Navigation Drawer/Links -->
+        <nav id="navMenu" class="fixed md:static top-0 right-0 h-screen md:h-auto w-3/4 max-w-xs md:w-auto bg-slate-900 md:bg-transparent border-l border-slate-800 md:border-none flex flex-col md:flex-row p-10 md:p-0 gap-6 md:gap-8 translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none z-40">
+            <div class="md:hidden text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 border-b border-slate-800 pb-2">Menu</div>
+            <a href="/" class="text-lg md:text-sm font-bold md:font-semibold uppercase tracking-wider text-slate-300 hover:text-amber-400 transition-colors border-b border-slate-800/50 md:border-none pb-2 md:pb-0">Portfolio</a>
+            <a href="/about/" class="text-lg md:text-sm font-bold md:font-semibold uppercase tracking-wider text-slate-300 hover:text-amber-400 transition-colors border-b border-slate-800/50 md:border-none pb-2 md:pb-0">About</a>
+            <a href="/book-now/" class="text-lg md:text-sm font-bold md:font-semibold uppercase tracking-wider text-amber-400 transition-colors border-b border-slate-800/50 md:border-none pb-2 md:pb-0">Booking</a>
         </nav>
     </header>
 
-    <main>
-        <div class="booking-layout">
-            <!-- Pricing / Info Panel -->
-            <div>
-                <h2>Rates & Packages</h2>
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Custom treatments available upon request. Rates exclude travel/lodging outside base location.</p>
-                
-                <div class="price-card">
-                    <h3>Official Music Video</h3>
-                    <div class="price">From $2,500</div>
-                    <ul>
-                        <li>• Complete concept treatment & storyboarding</li>
-                        <li>• 1 Full shooting day</li>
-                        <li>• High-end color grading & post-production</li>
-                    </ul>
-                </div>
+    <main class="flex-grow">
+        <!-- Page Header -->
+        <section class="max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-1 h-8 bg-amber-400"></div>
+                <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tight text-slate-100">Rates & Booking</h1>
+            </div>
+            <p class="text-slate-400 text-lg max-w-2xl">Ready to bring your music project to life? Select a tier or send a custom inquiry below.</p>
+        </section>
 
-                <div class="price-card">
-                    <h3>Live Studio Session</h3>
-                    <div class="price">From $1,200</div>
-                    <ul>
-                        <li>• Multi-camera performance setup</li>
-                        <li>• Fast turnaround delivery</li>
-                        <li>• Audio sync integration</li>
+        <!-- Pricing Tiers Grid -->
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Tier 1 -->
+            <div class="p-8 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-colors">
+                <div>
+                    <h2 class="text-amber-400 font-bold uppercase text-xs tracking-widest mb-2">Indie Essential</h2>
+                    <div class="text-3xl font-black text-slate-100 mb-4">Performance</div>
+                    <p class="text-xs text-slate-400 mb-6 leading-relaxed">Ideal for solo artists needing a clean, high-impact performance video on a single cinematic location.</p>
+                    
+                    <ul class="space-y-3 text-xs text-slate-300 border-t border-slate-800/80 pt-6 mb-8">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Single Location Shoot</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Full Cinema 4K Capture</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Standard Color Grade</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> 1 Revision Round</li>
                     </ul>
                 </div>
+                <a href="#bookingForm" class="block w-full py-3 bg-slate-800 hover:bg-slate-700 text-center text-slate-100 font-bold uppercase text-xs tracking-wider rounded-lg transition-colors">Select Tier</a>
             </div>
 
-            <!-- Contact & Booking Form -->
-            <div>
-                <!-- REPLACE "your_formspree_id" WITH THE ACTUAL ID FROM FORMSPREE.IO -->
-                <form action="https://formspree.io/f/your_formspree_id" method="POST">
-                    <h2>Inquire Project</h2>
+            <!-- Tier 2 (Highlighted) -->
+            <div class="p-8 rounded-xl bg-slate-900 border-2 border-amber-400/80 flex flex-col justify-between shadow-2xl relative">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-950 px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full">Most Popular</div>
+                <div>
+                    <h2 class="text-amber-400 font-bold uppercase text-xs tracking-widest mb-2">Label Standard</h2>
+                    <div class="text-3xl font-black text-slate-100 mb-4">Narrative</div>
+                    <p class="text-xs text-slate-400 mb-6 leading-relaxed">Full narrative storyline integrated with performance scenes across multiple locations.</p>
                     
-                    <div class="form-group">
-                        <label for="name">Your Name / Artist Name</label>
-                        <input type="text" id="name" name="name" required>
+                    <ul class="space-y-3 text-xs text-slate-300 border-t border-slate-800/80 pt-6 mb-8">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Multi-Location & Cast</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Storyboard & Scripting</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Premium Film Color LUTs</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Vertical Teasers for Social</li>
+                    </ul>
+                </div>
+                <a href="#bookingForm" class="block w-full py-3 bg-amber-400 hover:bg-amber-300 text-center text-slate-950 font-bold uppercase text-xs tracking-wider rounded-lg transition-colors">Select Tier</a>
+            </div>
+
+            <!-- Tier 3 -->
+            <div class="p-8 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-colors">
+                <div>
+                    <h2 class="text-amber-400 font-bold uppercase text-xs tracking-widest mb-2">Custom Vision</h2>
+                    <div class="text-3xl font-black text-slate-100 mb-4">Cinema FX</div>
+                    <p class="text-xs text-slate-400 mb-6 leading-relaxed">Large scale productions requiring set design, VFX, lighting crew, and international travel.</p>
+                    
+                    <ul class="space-y-3 text-xs text-slate-300 border-t border-slate-800/80 pt-6 mb-8">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Full Production Crew</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> 3D / VFX Integration</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> 4K ProRes Deliverables</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Expedited Turnaround</li>
+                    </ul>
+                </div>
+                <a href="#bookingForm" class="block w-full py-3 bg-slate-800 hover:bg-slate-700 text-center text-slate-100 font-bold uppercase text-xs tracking-wider rounded-lg transition-colors">Select Tier</a>
+            </div>
+
+        </section>
+
+        <!-- Booking Form Section -->
+        <section id="bookingForm" class="max-w-4xl mx-auto px-6 md:px-12 py-16">
+            <div class="bg-slate-900 border border-slate-800/90 rounded-2xl p-8 md:p-12 shadow-2xl">
+                <div class="mb-8 border-b border-slate-800 pb-6">
+                    <h2 class="text-2xl font-bold uppercase text-slate-100 mb-2">Project Inquiry</h2>
+                    <p class="text-xs text-slate-400">Fill out the details below and we will get back to you with availability within 24–48 hours.</p>
+                </div>
+
+                <!-- Formspree Integration -->
+                <form action="https://formspree.io/f/mykrakay" method="POST" class="space-y-6">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Full Name -->
+                        <div>
+                            <label for="name" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Your Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="e.g. Alex Rivera" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 text-sm transition-colors">
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="alex@example.com" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 text-sm transition-colors">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="_replyto" required>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Artist / Band Name -->
+                        <div>
+                            <label for="artist" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Artist / Label Name</label>
+                            <input type="text" id="artist" name="artist" placeholder="Stage or Label Name" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 text-sm transition-colors">
+                        </div>
+
+                        <!-- Budget Range -->
+                        <div>
+                            <label for="budget" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Target Budget</label>
+                            <select id="budget" name="budget" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 focus:outline-none focus:border-amber-400 text-sm transition-colors">
+                                <option value="Performance Tier">Indie Performance</option>
+                                <option value="Narrative Tier" selected>Label Narrative</option>
+                                <option value="Cinema FX Tier">Custom Cinema FX</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="package">Project Type</label>
-                        <select id="package" name="package">
-                            <option value="Music Video">Official Music Video</option>
-                            <option value="Live Session">Live Studio Session</option>
-                            <option value="Other">Custom Cinematic Project</option>
-                        </select>
+                    <!-- Song / Demo Link -->
+                    <div>
+                        <label for="song_link" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Song Link (Private Soundcloud, Dropbox, Drive)</label>
+                        <input type="url" id="song_link" name="song_link" placeholder="https://" class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 text-sm transition-colors">
                     </div>
 
-                    <div class="form-group">
-                        <label for="message">Project Details & Timeline</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Tell me about your track, budget estimate, and target shoot dates..." required></textarea>
+                    <!-- Project Concept / Details -->
+                    <div>
+                        <label for="message" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Project Vision & Timeline *</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Tell us about the song style, visual ideas, target shoot dates, or locations..." class="w-full px-4 py-3 rounded-lg bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 text-sm transition-colors"></textarea>
                     </div>
 
-                    <!-- Honeypot anti-spam field -->
-                    <input type="text" name="_gotcha" style="display:none">
-
-                    <button type="submit">Submit Request</button>
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black uppercase text-xs tracking-widest rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        Submit Inquiry <i class="fa-solid fa-paper-plane"></i>
+                    </button>
                 </form>
             </div>
-        </div>
+        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Streetlight. All Rights Reserved.</p>
+    <!-- Classic Footer with Socials & Legal Links -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-12 px-6 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col items-center justify-center gap-6">
+            <!-- Social Icons -->
+            <div class="flex items-center gap-6 text-xl">
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="text-slate-400 hover:text-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="text-slate-400 hover:text-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a href="https://vimeo.com" target="_blank" aria-label="Vimeo" class="text-slate-400 hover:text-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-brands fa-vimeo-v"></i>
+                </a>
+                <a href="mailto:director@example.com" aria-label="Email" class="text-slate-400 hover:text-amber-400 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+
+            <!-- Legal Links -->
+            <div class="flex flex-wrap justify-center gap-6 text-xs text-slate-400 font-medium uppercase tracking-wider">
+                <a href="/privacy-policy" class="hover:text-amber-400 transition-colors">Privacy Policy</a>
+                <span class="text-slate-700">•</span>
+                <a href="/terms" class="hover:text-amber-400 transition-colors">Terms of Service</a>
+                <span class="text-slate-700">•</span>
+                <a href="/licensing" class="hover:text-amber-400 transition-colors">Licensing & Rights</a>
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-xs text-slate-500 font-medium tracking-wide">
+                &copy; 2026 Streetlights. All Rights Reserved.
+            </p>
+        </div>
     </footer>
 
+    <!-- Interactive Logic Script -->
+    <script>
+        // Mobile Drawer Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const menuIcon = document.getElementById('menuIcon');
+
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = !navMenu.classList.contains('translate-x-full');
+            
+            if (isOpen) {
+                navMenu.classList.add('translate-x-full');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                navMenu.classList.remove('translate-x-full');
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        });
+
+        // Dismiss menu on outside tap
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navMenu.classList.add('translate-x-full');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        });
+    </script>
 </body>
 </html>

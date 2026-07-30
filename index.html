@@ -1,366 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STREETLIGHT | Music Director Portfolio</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>STREETLIGHT | Music Director</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons for Socials and Hamburger Menu -->
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Hero Section Expansion */
-        .hero {
-            padding: 14rem 0 10rem;
-            text-align: center;
-            /* Updated with Unsplash image string directly */
-            background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 100%), 
-                        url("./streetlights.webp") center center/cover no-repeat;
-            background-size: cover;
-            background-attachment: scroll;
-            margin-top: -90px; /* Pulls hero gracefully under transparent header */
-        }
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 4%;
-            text-shadow: 0 4px 16px rgba(0,0,0,0.95);
-        }
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-        .hero p {
-            color: #e0e0e0;
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            letter-spacing: 0.5px;
-        }
-
-        /* Responsive Navigation Architecture */
-        header {
-            position: relative;
-            background-color: rgba(10, 10, 10, 0.75) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background-color 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 4%;
-            z-index: 1005;
-        }
-        
-        /* Modern Mobile Hamburger Menu Trigger */
-        .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            color: #fff;
-            cursor: pointer;
-            z-index: 1010;
-            transition: color 0.3s, transform 0.3s;
-        }
-        .menu-toggle:hover {
-            color: var(--accent-color);
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 2rem;
-            transition: color 0.3s;
-        }
-        nav a.active, nav a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Portfolio Grid Modifications */
-        .portfolio-heading {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1.5rem;
-            margin: 5rem 0 2rem;
-            border-left: 3px solid var(--accent-color);
-            padding-left: 1rem;
-        }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2.5rem;
-            padding: 0 4%;
-        }
-        
-        /* Custom Video Player UI Card */
-        .work-card {
-            background: var(--card-bg, #161616);
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-        }
-        .video-container {
-            position: relative;
-            width: 100%;
-            height: 320px;
-            overflow: hidden;
-            background: #111;
-        }
-        .work-thumb {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .work-card:hover .work-thumb {
-            transform: scale(1.04);
-        }
-        
-        /* Premium Play Button Overlay */
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-        }
-        .play-btn {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            padding-left: 4px; 
-        }
-        .work-card:hover .play-btn {
-            background: var(--accent-color, #e50914);
-            border-color: var(--accent-color, #e50914);
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
-        }
-        .work-card:hover .video-overlay {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        .work-info {
-            padding: 1.5rem;
-            border-top: 1px solid #1f1f1f;
-        }
-        .work-info h3 { font-size: 1.3rem; margin-bottom: 0.4rem; font-weight: 700; color: #fff;}
-        .work-info p { color: var(--text-muted, #aaaaaa); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
-
-        /* Modern Cinema Modal system */
-        .video-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(15px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        .video-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .modal-content {
-            width: 90%;
-            max-width: 1000px;
-            aspect-ratio: 16/9;
-            background: #000;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .modal-content iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .close-modal {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            transition: color 0.3s;
-        }
-        .close-modal:hover { color: var(--accent-color, #e50914); }
-
-        /* Social Icons Grid */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        .social-links a {
-            color: var(--text-muted, #aaaaaa);
-            font-size: 1.5rem;
-            transition: color 0.3s, transform 0.3s;
-        }
-        .social-links a:hover {
-            color: var(--accent-color, #e50914);
-            transform: translateY(-3px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 4rem 0;
-            color: var(--text-muted, #aaaaaa);
-        }
-
-        /* Responsive Layout Overrides */
-        @media(max-width: 768px) {
-            .portfolio-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.8rem; }
-            .hero { padding: 10rem 0 6rem; }
-            
-            /* Activate Mobile Hamburger Drawer */
-            .menu-toggle {
-                display: block;
-            }
-            nav {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 75%;
-                max-width: 300px;
-                height: 100vh;
-                background: #0e0e0e;
-                border-left: 1px solid #1f1f1f;
-                display: flex;
-                flex-direction: column;
-                padding: 7rem 2rem;
-                gap: 2rem;
-                z-index: 1000;
-                transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-            }
-            nav.open {
-                right: 0;
-            }
-            nav a {
-                margin-left: 0;
-                font-size: 1.2rem;
-                font-weight: 700;
-                border-bottom: 1px solid #1a1a1a;
-                padding-bottom: 0.75rem;
-            }
-        }
-    </style>
 </head>
-<body>
+<body class="bg-zinc-950 text-white font-sans antialiased selection:bg-red-600 selection:text-white">
 
-    <header>
-        <div class="logo">Street<span>light</span></div>
-        <!-- Hamburger Menu Button -->
-        <div class="menu-toggle" id="mobileMenuBtn">
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 py-5 bg-zinc-950/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <!-- Logo -->
+        <a href="/" class="text-2xl font-black tracking-wider uppercase text-white hover:opacity-90 transition-opacity">
+            Street<span class="text-red-600">lights</span>
+        </a>
+
+        <!-- Hamburger Button (Mobile) -->
+        <button id="mobileMenuBtn" aria-label="Toggle navigation menu" class="md:hidden text-2xl text-white hover:text-red-600 focus:outline-none transition-colors z-50">
             <i class="fa-solid fa-bars" id="menuIcon"></i>
-        </div>
-        <nav id="navMenu">
-            <a href="/" class="active">Portfolio</a>
-            <a href="/about/">About</a>
-            <a href="/book-now/">Rates & Booking</a>
+        </button>
+
+        <!-- Navigation Drawer/Links -->
+        <nav id="navMenu" class="fixed md:static top-0 right-0 h-screen md:h-auto w-3/4 max-w-xs md:w-auto bg-zinc-900 md:bg-transparent border-l border-zinc-800 md:border-none flex flex-col md:flex-row p-10 md:p-0 gap-6 md:gap-8 translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none z-40">
+            <div class="md:hidden text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2 border-b border-zinc-800 pb-2">Menu</div>
+            <a href="/" class="text-lg md:text-sm font-bold md:font-semibold uppercase tracking-wider text-red-500 transition-colors border-b border-zinc-800/50 md:border-none pb-2 md:pb-0">Portfolio</a>
+            <a href="/about/" class="text-lg md:text-sm font-bold md:font-semibold uppercase tracking-wider text-zinc-300 hover:text-red-500 transition-colors border-b border-zinc-800/50 md:border-none pb-2 md:pb-0">About</a>
+            <a href="/book-now/" class="text-lg md:text-sm font-bold md:font-semibold uppercase tracking-wider text-zinc-300 hover:text-red-500 transition-colors border-b border-zinc-800/50 md:border-none pb-2 md:pb-0">Rates & Booking</a>
         </nav>
     </header>
 
-    <main style="padding-top: 0;">
-        <!-- Large Cinema Hero Banner -->
-        <section class="hero" id="heroBanner">
-            <div class="hero-content">
-                <h1>Visualizing Sound.</h1>
-                <p>High-end cinematic music video direction for independent & major label artists worldwide.</p>
+    <main class="min-h-screen">
+        <!-- Cinema Hero Section -->
+        <section id="heroBanner" class="relative min-h-[70vh] flex items-center justify-center text-center px-4 py-24 md:py-36 bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: linear-gradient(to bottom, rgba(10, 10, 10, 0.4) 0%, rgba(9, 9, 11, 1) 100%), url('./streetlight.webp');">
+            <div class="max-w-4xl mx-auto drop-shadow-2xl">
+                <h1 class="text-4xl sm:text-6xl md:text-8xl font-black uppercase tracking-tight leading-none mb-6 text-white">
+                    Visualizing Sound.
+                </h1>
+                <p class="text-base sm:text-xl text-zinc-300 font-normal max-w-2xl mx-auto tracking-wide leading-relaxed">
+                    High-end cinematic music video direction for independent & major label artists worldwide.
+                </p>
             </div>
         </section>
 
         <!-- Video Portfolio Grid Section -->
-        <section>
-            <h2 class="portfolio-heading">Selected Works</h2>
-            <div class="portfolio-grid">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 py-12">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-1 h-8 bg-red-600"></div>
+                <h2 class="text-xl md:text-2xl font-bold uppercase tracking-widest text-zinc-100">Selected Works</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <!-- Video Card 1 -->
-                <div class="work-card" data-youtube="65nClOBJab0">
-                    <div class="video-container">
-                        <img alt="Music Video Artwork Cover" class="work-thumb">
-                        <div class="video-overlay">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                <div class="work-card group bg-zinc-900 rounded-lg overflow-hidden cursor-pointer border border-zinc-800/60 transition-transform duration-300 hover:-translate-y-1" data-youtube="65nClOBJab0">
+                    <div class="relative w-full h-64 sm:h-80 overflow-hidden bg-black">
+                        <img alt="Music Video Artwork Cover" class="work-thumb w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/15 backdrop-blur-md border border-white/40 flex items-center justify-center text-white text-xl pl-1 group-hover:bg-red-600 group-hover:border-red-600 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(225,29,72,0.6)] transition-all duration-300">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="work-info">
-                        <h3>Emkay 64 — Msela</h3>
-                        <p>Official Music Video • 2025</p>
+                    <div class="p-6 border-t border-zinc-800">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-red-500 transition-colors">Emkay 64 — Msela</h3>
+                        <p class="text-xs uppercase tracking-wider text-zinc-400 font-medium">Official Music Video • 2025</p>
                     </div>
                 </div>
 
                 <!-- Video Card 2 -->
-                <div class="work-card" data-youtube="AMx0K1Exsz4">
-                    <div class="video-container">
-                        <img alt="Music Video Artwork Cover" class="work-thumb">
-                        <div class="video-overlay">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                <div class="work-card group bg-zinc-900 rounded-lg overflow-hidden cursor-pointer border border-zinc-800/60 transition-transform duration-300 hover:-translate-y-1" data-youtube="AMx0K1Exsz4">
+                    <div class="relative w-full h-64 sm:h-80 overflow-hidden bg-black">
+                        <img alt="Music Video Artwork Cover" class="work-thumb w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/15 backdrop-blur-md border border-white/40 flex items-center justify-center text-white text-xl pl-1 group-hover:bg-red-600 group-hover:border-red-600 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(225,29,72,0.6)] transition-all duration-300">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="work-info">
-                        <h3>Kaa La Moto — Mwenyekiti</h3>
-                        <p>Official Music Video • 2026</p>
+                    <div class="p-6 border-t border-zinc-800">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-red-500 transition-colors">Kaa La Moto — Mwenyekiti</h3>
+                        <p class="text-xs uppercase tracking-wider text-zinc-400 font-medium">Official Music Video • 2026</p>
                     </div>
                 </div>
 
                 <!-- Video Card 3 -->
-                <div class="work-card" data-youtube="zzdCan8y3SY">
-                    <div class="video-container">
-                        <img alt="Music Video Artwork Cover" class="work-thumb">
-                        <div class="video-overlay">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                <div class="work-card group bg-zinc-900 rounded-lg overflow-hidden cursor-pointer border border-zinc-800/60 transition-transform duration-300 hover:-translate-y-1" data-youtube="zzdCan8y3SY">
+                    <div class="relative w-full h-64 sm:h-80 overflow-hidden bg-black">
+                        <img alt="Music Video Artwork Cover" class="work-thumb w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/15 backdrop-blur-md border border-white/40 flex items-center justify-center text-white text-xl pl-1 group-hover:bg-red-600 group-hover:border-red-600 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(225,29,72,0.6)] transition-all duration-300">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="work-info">
-                        <h3>Pelzy — Kaza</h3>
-                        <p>Official Music Video • 2025</p>
+                    <div class="p-6 border-t border-zinc-800">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-red-500 transition-colors">Pelzy — Kaza</h3>
+                        <p class="text-xs uppercase tracking-wider text-zinc-400 font-medium">Official Music Video • 2025</p>
                     </div>
                 </div>
 
                 <!-- Video Card 4 -->
-                <div class="work-card" data-youtube="eMU2AxFgQnE">
-                    <div class="video-container">
-                        <img alt="Music Video Artwork Cover" class="work-thumb">
-                        <div class="video-overlay">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                <div class="work-card group bg-zinc-900 rounded-lg overflow-hidden cursor-pointer border border-zinc-800/60 transition-transform duration-300 hover:-translate-y-1" data-youtube="eMU2AxFgQnE">
+                    <div class="relative w-full h-64 sm:h-80 overflow-hidden bg-black">
+                        <img alt="Music Video Artwork Cover" class="work-thumb w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-white/15 backdrop-blur-md border border-white/40 flex items-center justify-center text-white text-xl pl-1 group-hover:bg-red-600 group-hover:border-red-600 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(225,29,72,0.6)] transition-all duration-300">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="work-info">
-                        <h3>Official Bigi — 001 Streetz</h3>
-                        <p>Official Music Video • 2025</p>
+                    <div class="p-6 border-t border-zinc-800">
+                        <h3 class="text-xl font-bold text-white mb-1 group-hover:text-red-500 transition-colors">Official Bigi — 001 Streetz</h3>
+                        <p class="text-xs uppercase tracking-wider text-zinc-400 font-medium">Official Music Video • 2025</p>
                     </div>
                 </div>
 
@@ -368,48 +136,75 @@
         </section>
     </main>
 
-    <!-- Custom Cinematic Modal Architecture -->
-    <div class="video-modal" id="videoModal">
-        <div class="modal-content">
-            <div class="close-modal" id="closeModal">Close <i class="fa-solid fa-xmark"></i></div>
-            <iframe id="modalPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <!-- Custom Cinema Video Modal Overlay -->
+    <div id="videoModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+            <button id="closeModal" class="absolute -top-10 right-0 text-white hover:text-red-500 font-bold tracking-widest text-sm uppercase flex items-center gap-2 transition-colors focus:outline-none">
+                Close <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <iframe id="modalPlayer" class="w-full h-full border-0" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://vimeo.com" target="_blank" aria-label="Vimeo"><i class="fa-brands fa-vimeo-v"></i></a>
-            <a href="mailto:director@example.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+    <!-- Classic Footer with Socials & Legal Links -->
+    <footer class="border-t border-zinc-900 bg-zinc-950 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col items-center justify-center gap-6">
+            <!-- Social Icons -->
+            <div class="flex items-center gap-6 text-xl">
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="text-zinc-400 hover:text-red-500 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="text-zinc-400 hover:text-red-500 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a href="https://vimeo.com" target="_blank" aria-label="Vimeo" class="text-zinc-400 hover:text-red-500 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-brands fa-vimeo-v"></i>
+                </a>
+                <a href="mailto:director@example.com" aria-label="Email" class="text-zinc-400 hover:text-red-500 hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+
+            <!-- Legal Links -->
+            <div class="flex flex-wrap justify-center gap-6 text-xs text-zinc-500 font-medium uppercase tracking-wider">
+                <a href="/privacy-policy" class="hover:text-zinc-300 transition-colors">Privacy Policy</a>
+                <span class="text-zinc-800">•</span>
+                <a href="/terms" class="hover:text-zinc-300 transition-colors">Terms of Service</a>
+                <span class="text-zinc-800">•</span>
+                <a href="/licensing" class="hover:text-zinc-300 transition-colors">Licensing & Rights</a>
+            </div>
+
+            <!-- Copyright -->
+            <p class="text-xs text-zinc-500 font-medium tracking-wide">
+                &copy; 2026 Streetlight. All Rights Reserved.
+            </p>
         </div>
-        <p>&copy; 2026 Streetlight. All Rights Reserved.</p>
     </footer>
 
+    <!-- Interactive Logic Script -->
     <script>
         const cards = document.querySelectorAll('.work-card');
         const modal = document.getElementById('videoModal');
         const player = document.getElementById('modalPlayer');
         const closeBtn = document.getElementById('closeModal');
 
-        // --- 1. DYNAMIC THUMBNAIL GENERATOR ENGINE ---
+        // Dynamic YouTube Thumbnail & Modal Logic
         cards.forEach(card => {
             const videoId = card.getAttribute('data-youtube');
             const thumbImg = card.querySelector('.work-thumb');
             
             if (videoId && thumbImg) {
-                // Generates standard high-quality YouTube dynamic background directly inside layout viewport
                 thumbImg.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
             }
 
             card.addEventListener('click', () => {
                 player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-                modal.classList.add('active');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
             });
         });
 
         const closeModalFunc = () => {
-            modal.classList.remove('active');
+            modal.classList.add('opacity-0', 'pointer-events-none');
             player.src = ''; 
         };
 
@@ -418,31 +213,29 @@
             if (e.target === modal) closeModalFunc();
         });
 
-        // --- 2. MOBILE HAMBURGER MENU ENGINE ---
+        // Mobile Drawer Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navMenu = document.getElementById('navMenu');
         const menuIcon = document.getElementById('menuIcon');
 
         mobileMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            navMenu.classList.toggle('open');
+            const isOpen = !navMenu.classList.contains('translate-x-full');
             
-            // Toggle icon classes safely
-            if (navMenu.classList.contains('open')) {
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-xmark');
+            if (isOpen) {
+                navMenu.classList.add('translate-x-full');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
             } else {
-                menuIcon.classList.remove('fa-xmark');
-                menuIcon.classList.add('fa-bars');
+                navMenu.classList.remove('translate-x-full');
+                menuIcon.classList.replace('fa-bars', 'fa-xmark');
             }
         });
 
-        // Close menu if user clicks anywhere outside the mobile drawer
+        // Dismiss menu on outside tap
         document.addEventListener('click', (e) => {
             if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                navMenu.classList.remove('open');
-                menuIcon.classList.remove('fa-xmark');
-                menuIcon.classList.add('fa-bars');
+                navMenu.classList.add('translate-x-full');
+                menuIcon.classList.replace('fa-xmark', 'fa-bars');
             }
         });
     </script>
